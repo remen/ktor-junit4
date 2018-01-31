@@ -1,4 +1,4 @@
-package io.github.remen.ktorjunit4
+package io.github.remen.ktorjunit4.logging
 
 import ch.qos.logback.classic.*
 import ch.qos.logback.classic.spi.ILoggingEvent

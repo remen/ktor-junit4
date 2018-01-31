@@ -2,8 +2,8 @@
 
 Although both Java and Javascript are very safe choices, we have decided to adopt Kotlin full-heartedly, due to:
 
+* Easier handling of non-blocking code compared to Java using coroutines
 * Increased developer happiness
-* Easier and more readable handling of non-blocking code compared to Java
 * Interoperability with Java and the JVM
 
 ## Coroutines

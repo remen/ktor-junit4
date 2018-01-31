@@ -1,11 +1,18 @@
 package io.github.remen.ktorjunit4
 
 class Application {
-    fun start(): Unit {
+    fun start() {
 
     }
 
-    fun stop(): Unit {
+    fun stop() {
 
+    }
+
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            Application().start()
+        }
     }
 }
