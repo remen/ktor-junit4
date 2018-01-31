@@ -8,6 +8,8 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        // Although set up in gradle/spek.gradle, this dependency has to be here since it's in the build script section
         classpath "org.junit.platform:junit-platform-gradle-plugin:$junit_platform_plugin_version"
     }
 }
@@ -20,44 +22,16 @@ kotlin {
     }
 }
 
-apply plugin: 'org.junit.platform.gradle.plugin'
-
-apply plugin: 'application'
-applicationName = 'app' // For convenience in Dockerfile, we make this the same for all projects.
-mainClassName = 'io.github.remen.ktorjunit4.Application'
-// To speed up building a little bit, we disable building .tar.gz and .zip archives
-distTar.enabled = false
-distZip.enabled = false
-
-ext.dockerTag = "meltwater-docker-platform-registry.bintray.io/${project.name}:${project.version}"
-task("dockerBuild", type: Exec) {
-    group = 'Docker'
-    description = 'Builds a docker image from this project'
-
-    inputs.files "Dockerfile"
-    inputs.files tasks.installDist.outputs
-
-    commandLine 'docker', 'build', '-t', dockerTag, "."
-}
-
-task dockerPush(type: Exec) {
-    dependsOn("dockerBuild", "check")
-
-    group = 'Docker'
-    description = 'Pushes the docker image to the remote repository'
-    commandLine 'docker', 'push', dockerTag
-}
-dockerPush.enabled = false // TODO: Disabled to avoid pushing to bintray while playing around
+apply from: 'gradle/docker.gradle'
+apply from: 'gradle/spek.gradle'
 
 repositories {
     mavenCentral()
     maven { url  "http://dl.bintray.com/kotlin/ktor" }
     maven { url "https://dl.bintray.com/kotlin/kotlinx" }
-    maven { url "http://dl.bintray.com/jetbrains/spek" }
 }
 
 ext.ktor_version = '0.9.1'
-ext.spek_version = '1.1.5'
 ext.jackson_version = '2.9.4'
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -78,7 +52,5 @@ dependencies {
     compile 'net.logstash.logback:logstash-logback-encoder:4.11'
 
     // Test dependencies
-    testCompile "org.jetbrains.spek:spek-api:$spek_version"
-    testRuntime "org.jetbrains.spek:spek-junit-platform-engine:$spek_version"
     testCompile "org.assertj:assertj-core:3.9.0"
 }

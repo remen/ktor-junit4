@@ -1,0 +1,26 @@
+apply plugin: 'application'
+applicationName = 'app' // For convenience in Dockerfile, we make this the same for all projects.
+mainClassName = 'io.github.remen.ktorjunit4.Application'
+// To speed up building a little bit, we disable building .tar.gz and .zip archives
+distTar.enabled = false
+distZip.enabled = false
+
+ext.dockerTag = "meltwater-docker-platform-registry.bintray.io/${project.name}:${project.version}"
+task("dockerBuild", type: Exec) {
+    group = 'Docker'
+    description = 'Builds a docker image from this project'
+
+    inputs.files "Dockerfile"
+    inputs.files tasks.installDist.outputs
+
+    commandLine 'docker', 'build', '-t', dockerTag, "."
+}
+
+task dockerPush(type: Exec) {
+    dependsOn("dockerBuild", "check")
+
+    group = 'Docker'
+    description = 'Pushes the docker image to the remote repository'
+    commandLine 'docker', 'push', dockerTag
+}
+dockerPush.enabled = false // TODO: Disabled to avoid pushing to bintray while playing around
