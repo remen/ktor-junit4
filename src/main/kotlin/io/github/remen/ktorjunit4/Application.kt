@@ -14,6 +14,8 @@ import org.slf4j.event.Level
 import java.util.concurrent.TimeUnit
 
 class Application {
+    data class ResponseMessage(val message: String)
+
     private val server : ApplicationEngine
     init {
         server = embeddedServer(Netty, 8080) {
@@ -23,6 +25,9 @@ class Application {
             }
 
             routing {
+                get("/") {
+                    call.respond(ResponseMessage("Hello World!"))
+                }
                 get("/health") {
                     call.respond(mapOf("status" to "OK"))
                 }
