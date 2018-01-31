@@ -1,1 +1,1 @@
-io.github.remen.ktorjunit4.config.LogbackConfigurator
+io.github.remen.ktorjunit4.logging.LogbackConfigurator
