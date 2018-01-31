@@ -17,10 +17,17 @@ task("dockerBuild", type: Exec) {
 }
 
 task dockerPush(type: Exec) {
-    dependsOn("dockerBuild", "check")
+    dependsOn("dockerBuild")
 
     group = 'Docker'
     description = 'Pushes the docker image to the remote repository'
     commandLine 'docker', 'push', dockerTag
 }
 dockerPush.enabled = false // TODO: Disabled to avoid pushing to bintray while playing around
+
+task publish {
+    group = "Publishing"
+    description = "Publishes build artifacts to remote repositories"
+
+    dependsOn("check", "dockerPush")
+}
