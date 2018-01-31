@@ -1,14 +1,48 @@
-plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.2.21"
-}
+buildscript {
+    ext.kotlin_version = '1.2.21'
 
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+apply plugin: "kotlin"
 compileKotlin { kotlinOptions { jvmTarget = "1.8" } }
 compileTestKotlin { kotlinOptions { jvmTarget = "1.8" } }
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
+}
 
 repositories {
     mavenCentral()
+    maven { url  "http://dl.bintray.com/kotlin/ktor" }
+    maven { url "https://dl.bintray.com/kotlin/kotlinx" }
 }
 
+ext.ktor_version = '0.9.1'
 dependencies {
+    // Don't need to specify version here, because the plugin fills it in
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    // Use https://ktor.io as a web server
+    compile "io.ktor:ktor-server-core:$ktor_version"
+    compile "io.ktor:ktor-server-netty:$ktor_version"
+
+    // HTTP Client
+    compile "org.apache.httpcomponents:fluent-hc:4.5.5"
+
+    // Use logback + json encoder for logging
+    compile "ch.qos.logback:logback-classic:1.2.3"
+    compile 'net.logstash.logback:logstash-logback-encoder:4.11'
+
+    // Test dependencies
+    testCompile "junit:junit:4.12"
+    testCompile "org.assertj:assertj-core:3.9.0"
+
+
 }
