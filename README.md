@@ -1,6 +1,6 @@
 # Why kotlin?
 
-Although both Java and Javascript are very safe choices, we have decided to adopt Kotlin full-heartedly, due to:
+Although both Java and Javascript are very safe choices, we have decided to adopt Kotlin, due to:
 
 * Easier handling of non-blocking code compared to Java using coroutines
 * Increased developer happiness
