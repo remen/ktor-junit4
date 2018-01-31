@@ -10,7 +10,7 @@ import io.ktor.response.ApplicationSendPipeline
 import io.ktor.util.AttributeKey
 
 /**
- * Due to
+ * Using this instead of ContentNegotiation due to https://github.com/ktorio/ktor/issues/307
  */
 class JacksonFeature {
     class Configuration {
