@@ -72,17 +72,16 @@ In fact, any simple http server would do. In the end ktor.io was chosen due to i
 * [undertow](http://undertow.io/)
 * [spring-boot](https://projects.spring.io/spring-boot/) - Too "heavy" for our liking
 
-# Why junit5?
+# Why spek?
 
-Although very new, and native gradle support [is not ready yet](https://github.com/gradle/gradle/pull/4116),
-Junit5 integrates well with Kotlin and IntelliJ, allows for nested test classes and is a future-proof choice.
+Spek allows for nested tests in a style very familiar to rspec or jasmine users.
 
 ## What alternatives were considered?
 
 * [http://junit.org/junit4/](Junit4) - `@BeforeClass` is awkward with Kotlin
+* [http://junit.org/junit5/](Junit5) - Too awkward to create nested classes
 * [http://spockframework.org/spock/docs/1.1/index.html](Spock) - The dynamic nature of the language isn't worth it
-* [http://spekframework.org/](Spek) - A very good choice, but I worry about its future and IntelliJ-integration
 
 ## Links
 
-* [Junit 5 User Guide](http://junit.org/junit5/docs/current/user-guide/)
+* http://spekframework.org/
