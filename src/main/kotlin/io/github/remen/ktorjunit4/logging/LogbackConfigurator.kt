@@ -11,6 +11,8 @@ class LogbackConfigurator : BasicConfigurator() {
         val consoleAppender = ConsoleAppender<ILoggingEvent>().apply {
             context = lc
             name = "console"
+
+            // Just an example of how we could configure the log format. We can also set up a TCP appender here if we want
             encoder = if (System.getenv("LOG_FORMAT") == "json") {
                 LogstashEncoder().apply {
                     start()
