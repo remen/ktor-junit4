@@ -1,3 +1,29 @@
+# How do I run it?
+
+```
+./gradlew run
+```
+
+# How do I test it?
+
+```
+./gradlew check
+```
+
+# How do I build a docker image and push to bintray?
+
+```
+./gradlew pushDocker
+```
+
+This will:
+
+* build the project
+* run all tests
+* build the docker image
+* push it to the remote repository (manually disabled right now though)
+
+
 # Why kotlin?
 
 Although both Java and Javascript are very safe choices, we have decided to adopt Kotlin, due to:

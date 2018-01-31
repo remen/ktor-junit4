@@ -41,11 +41,13 @@ task("dockerBuild", type: Exec) {
 }
 
 task dockerPush(type: Exec) {
+    dependsOn("dockerBuild", "check")
+
     group = 'Docker'
     description = 'Pushes the docker image to the remote repository'
     commandLine 'docker', 'push', dockerTag
 }
-
+dockerPush.enabled = false // TODO: Disabled to avoid pushing to bintray while playing around
 
 repositories {
     mavenCentral()
