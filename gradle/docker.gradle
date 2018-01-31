@@ -5,7 +5,9 @@ mainClassName = 'io.github.remen.ktorjunit4.Application'
 distTar.enabled = false
 distZip.enabled = false
 
-ext.dockerTag = "meltwater-docker-platform-registry.bintray.io/${project.name}:${project.version}"
+ext.dockerTag = "meltwater-docker-owl-registry.bintray.io/petter/${project.name}:${project.version}"
+ext.dockerName = "meltwater-docker-owl-registry.bintray.io/petter/${project.name}"
+
 task("dockerBuild", type: Exec) {
     group = 'Docker'
     description = 'Builds a docker image from this project'
@@ -13,17 +15,22 @@ task("dockerBuild", type: Exec) {
     inputs.files "Dockerfile"
     inputs.files tasks.installDist.outputs
 
-    commandLine 'docker', 'build', '-t', dockerTag, "."
+    commandLine 'docker', 'build', '-t', "${dockerName}:${project.version}", '-t', "${dockerName}:latest", "."
 }
 
-task dockerPush(type: Exec) {
+task dockerPushVersion(type: Exec) {
     dependsOn("dockerBuild")
-
-    group = 'Docker'
-    description = 'Pushes the docker image to the remote repository'
-    commandLine 'docker', 'push', dockerTag
+    commandLine 'docker', 'push', "${dockerName}:${project.version}"
 }
-dockerPush.enabled = false // TODO: Disabled to avoid pushing to bintray while playing around
+
+task dockerPushLatest(type: Exec) {
+    dependsOn("dockerBuild")
+    commandLine 'docker', 'push', "${dockerName}:latest"
+}
+
+task dockerPush {
+    dependsOn(dockerPushLatest, dockerPushVersion)
+}
 
 task publish {
     group = "Publishing"
